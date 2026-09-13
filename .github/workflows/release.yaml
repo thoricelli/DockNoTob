@@ -26,8 +26,8 @@ jobs:
       - name: Make Gradle Executable
         run: chmod +x gradlew
 
-      - name: Build Release APK with Debug Key
-        run: ./gradlew assembleRelease -Pandroid.injected.signing.store.file=$HOME/.android/debug.keystore -Pandroid.injected.signing.store.password=android -Pandroid.injected.signing.key.alias=androiddebugkey -Pandroid.injected.signing.key.password=android
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
       - name: Release
         shell: bash
@@ -36,7 +36,7 @@ jobs:
           tag: ${{ github.ref_name }}
         run: |
           gh release create "$tag" \
-          "app/build/outputs/apk/release/app-release-unsigned.apk" \
+          "app/build/outputs/apk/release/app-release.apk" \
           --repo="$GITHUB_REPOSITORY" \
           --title="${tag#v}" \
           --generate-notes
