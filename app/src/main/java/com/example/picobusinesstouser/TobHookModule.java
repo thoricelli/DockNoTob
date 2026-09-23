@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -20,17 +21,10 @@ public class TobHookModule implements IXposedHookLoadPackage {
                     lpparam.classLoader
             );
 
-            var hook = new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                }
-            };
-
             XposedHelpers.findAndHookMethod(
                     dockUtilsClass,
                     "isSupportToB",
-                    hook
+                    XC_MethodReplacement.returnConstant(false)
             );
         } catch (Exception e) {
             Log.e("TobHookModule", String.valueOf(e.getMessage()));
